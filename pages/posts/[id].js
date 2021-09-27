@@ -22,7 +22,7 @@ export default PostPage;
 //getting post property belonging to the current path that being rendered
 export async function getStaticProps({ params }) {
   //
-  const postRes = await axios.get(`http://localhost:1337/posts/${params.id}`);
+  const postRes = await axios.get(`https://slava-photo-blog-strapi.herokuapp.com/posts/${params.id}`);
 
   return {
     props: {
@@ -35,7 +35,7 @@ export async function getStaticProps({ params }) {
 //it will get info to Next which post to generate this path for
 export async function getStaticPaths() {
   //get all the posts from Strapi
-  const postsRes = await axios.get("http://localhost:1337/posts");
+  const postsRes = await axios.get("https://slava-photo-blog-strapi.herokuapp.com/posts");
 
   //generate array of objects of paths for each of posts
   const paths = postsRes.data.map((post) => {

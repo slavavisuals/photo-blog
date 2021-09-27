@@ -14,7 +14,7 @@ function Home({ posts }) {
 }
 
 export async function getStaticProps() {
-  const postsRes = await axios.get("http://localhost:1337/posts");
+  const postsRes = await axios.get("https://slava-photo-blog-strapi.herokuapp.com/posts");
 
   return {
     props: {
