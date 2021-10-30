@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import AllPosts from "../../components/AllPosts";
+import getStrapiUrl from "../../util/getStrapiUrl";
 
 const Posts = ({ posts }) => {
   return (
@@ -13,7 +14,7 @@ const Posts = ({ posts }) => {
 export default Posts;
 
 export async function getStaticProps() {
-  const postsRes = await axios.get("https://slava-photo-blog-strapi.herokuapp.com/posts");
+  const postsRes = await axios.get(getStrapiUrl("/posts"));
 
   return {
     props: {

@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
 import MarkdownIt from "markdown-it";
+import getStrapiUrl from "../../util/getStrapiUrl";
 
 const PostPage = ({ post }) => {
   const md = MarkdownIt();
@@ -22,8 +23,8 @@ export default PostPage;
 //getting post property belonging to the current path that being rendered
 export async function getStaticProps({ params }) {
   //
-  const postRes = await axios.get(`https://slava-photo-blog-strapi.herokuapp.com/posts/${params.id}`);
-
+  const postRes = await axios.get(getStrapiUrl(`/posts/${params.id}`));
+///posts/${params.id}
   return {
     props: {
       post: postRes.data,
@@ -35,7 +36,8 @@ export async function getStaticProps({ params }) {
 //it will get info to Next which post to generate this path for
 export async function getStaticPaths() {
   //get all the posts from Strapi
-  const postsRes = await axios.get("https://slava-photo-blog-strapi.herokuapp.com/posts");
+  const postsRes = await axios.get(getStrapiUrl("/posts"));
+  
 
   //generate array of objects of paths for each of posts
   const paths = postsRes.data.map((post) => {

@@ -3,6 +3,7 @@ import axios from "axios";
 import React from "react";
 import HomeHeader from "../components/HomeHeader";
 import HomeLatestPosts from "../components/HomeLatestPosts";
+import getStrapiUrl from "../util/getStrapiUrl";
 
 function Home({ posts }) {
   return (
@@ -13,8 +14,10 @@ function Home({ posts }) {
   );
 }
 
+
+
 export async function getStaticProps() {
-  const postsRes = await axios.get("https://slava-photo-blog-strapi.herokuapp.com/posts");
+  const postsRes = await axios.get(getStrapiUrl("/posts"));
 
   return {
     props: {
