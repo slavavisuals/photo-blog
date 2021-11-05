@@ -16,7 +16,7 @@ const HomeLatestPosts = ({ posts }) => {
 
   return (
     <>
-      <h2>Latest Posts</h2>
+      <h2 className="text-4xl font-bold">Latest Posts</h2>
       {renderPostPreviews()}
     </>
   );
