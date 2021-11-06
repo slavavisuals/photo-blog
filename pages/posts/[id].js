@@ -2,12 +2,26 @@ import axios from "axios";
 import React from "react";
 import MarkdownIt from "markdown-it";
 import getStrapiUrl from "../../util/getStrapiUrl";
+import { NextSeo } from "next-seo";
 
 const PostPage = ({ post }) => {
+
+  const SEO = {
+    title: `Slava Visuals | ${post.title} `,
+    description: `${post.description}`,
+
+    openGraph: {
+      title: `Slava Visuals | ${post.title} `,
+      description: `${post.description}`,
+    },
+  }
+
   const md = MarkdownIt();
   const htmlContent = md.render(post.content);
 
   return (
+    <>
+    <NextSeo {...SEO} />
     <article>
       <header>
         <h1>{post.title}</h1>
@@ -15,6 +29,7 @@ const PostPage = ({ post }) => {
         <section dangerouslySetInnerHTML={{ __html: htmlContent }}></section>
       </header>
     </article>
+    </>
   );
 };
 
