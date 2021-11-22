@@ -8,8 +8,11 @@ import getStrapiUrl from "../util/getStrapiUrl";
 function Home({ posts }) {
   return (
     <>
-      <HomeHeader />
-      <HomeLatestPosts posts={posts} />
+    
+    <HomeHeader />
+    <HomeLatestPosts posts={posts} />
+    
+      
     </>
   );
 }

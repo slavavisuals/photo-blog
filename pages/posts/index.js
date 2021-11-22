@@ -5,7 +5,7 @@ import getStrapiUrl from "../../util/getStrapiUrl";
 
 const Posts = ({ posts }) => {
   return (
-    <div>
+    <div class="all-posts">
       <AllPosts posts={posts} />
     </div>
   );

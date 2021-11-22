@@ -7,12 +7,14 @@ import SEO from '../next-seo.config';
 function MyApp({ Component, pageProps }) {
   return (
     <>
+    <div className="mx-5">
     <DefaultSeo {...SEO} />
     <NavBar />
-    <div className="container">
     
-    <Component {...pageProps} />
-  </div>
+      <Component {...pageProps} />
+    
+    </div>
+    
   </>
   )
   

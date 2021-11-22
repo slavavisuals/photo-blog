@@ -24,7 +24,7 @@ const PostPage = ({ post }) => {
     <NextSeo {...SEO} />
     <article>
       <header>
-        <h1>{post.title}</h1>
+        <h1 className="text-2xl">{post.title}</h1>
         <h2>{post.description}</h2>
         <section dangerouslySetInnerHTML={{ __html: htmlContent }}></section>
       </header>

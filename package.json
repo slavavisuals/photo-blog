@@ -11,10 +11,10 @@
   "dependencies": {
     "axios": "^0.21.4",
     "markdown-it": "^12.2.0",
-    "next": "11.1.2",
+    "next": "^12.0.4",
     "next-seo": "^4.28.1",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "sass": "^1.41.0"
   },
   "devDependencies": {

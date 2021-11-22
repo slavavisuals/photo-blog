@@ -25,6 +25,8 @@ const AllPosts = ({ posts }) => {
     <NextSeo {...SEO} />
       <h2>Posts</h2>
       {renderPostPreviews()}
+    
+      
     </>
   );
 };

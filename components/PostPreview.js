@@ -4,10 +4,10 @@ import Link from "next/link";
 const PostPreview = ({ post }) => {
   return (
     <Link href={`/posts/${post.id}`} passHref>
-      <div className="postPreview">
+      <article className="postPreview">
         <h3>{post.title}</h3>
         <p>{post.description}</p>
-      </div>
+      </article>
     </Link>
   );
 };
