@@ -27,30 +27,38 @@ const PostPage = ({ post }) => {
   return (
     <>
     <NextSeo {...SEO} />
-    <article>
-      <div className="grid grid-cols-2 items-center bg-red-100 w-9/12 mx-auto">
-        <Image
-          className="rounded-3xl"
-          src="https://res.cloudinary.com/slavavisuals/image/upload/v1637879434/samples/photo-1593642634443-44adaa06623a_zeyp2h.jpg"
-          alt="Picture of blogpost"
-          width={500}
-          height={500}
-        />
-        <div className="pl-10 grid gap-y-4" >
-          {/* tags */}
-          <ul className="flex space-x-2">
-            <li className="bg-gray-200 rounded-full px-3">tag1</li>
-            <li className="bg-gray-200 rounded-full px-3">tag2</li>
-            <li className="bg-gray-200 rounded-full px-3">tag3</li>
-          </ul>
-          <h1 className="text-8xl pl-2 font-nunito">{post.title}</h1>
+    <article className="grid gap-y-8 mx-auto xl:w-[1200px] 2xl:w-[1400px]">
+      <header className="font-nunito grid gap-y-6 items-center  lg:grid-cols-2 lg:gap-x-8 xl:gap-x-5">
+        <div className="blog-header-img-container ">
+          <Image
+            className="blog-header-img rounded-3xl xl:border-2 border-purple-700"
+            src="https://res.cloudinary.com/slavavisuals/image/upload/v1637879434/samples/photo-1593642634443-44adaa06623a_zeyp2h.jpg"
+            alt="Picture of blogpost"
+            layout="fill"
+            
+          />
         </div>
         
-      </div>
-      <header>
-        <h2>description: {post.description}</h2>
-        <section dangerouslySetInnerHTML={{ __html: htmlContent }}></section>
+        <div className="xl:pl-10 grid gap-y-4" >
+          {/* tags */}
+          <ul className="flex space-x-2">
+            <li className="bg-gray-100 rounded-full py-1 px-5 text-gray-800">tag1</li>
+            <li className="bg-gray-100 rounded-full py-1 px-5 text-gray-800">tag2</li>
+            <li className="bg-gray-100 rounded-full py-1 px-5 text-gray-800">tag3</li>
+          </ul>
+          <h1 className="text-5xl text-left xl:text-8xl font-extrabold">{post.title}</h1>
+        </div>
+        
       </header>
+
+      <main className="justify-self-center font-roboto text-base leading-loose md:text-lg md:leading-loose lg:w-9/12">
+        {/* <h2>description: {post.description}</h2> */}
+        <section dangerouslySetInnerHTML={{ __html: htmlContent }} className=""></section>
+      </main>
+
+      
+        
+      
     </article>
     </>
   );
