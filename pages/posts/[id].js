@@ -1,28 +1,43 @@
-import axios from "axios";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import { GET_ALL_POSTS, GET_SINGLE_POST } from "../../graphql/queries";
+
 import React from "react";
 import MarkdownIt from "markdown-it";
-import getStrapiUrl from "../../util/getStrapiUrl";
+
 import { NextSeo } from "next-seo";
 import Image from 'next/image';
 
 const PostPage = ({ post }) => {
 
+  const{title, description, content} = post;
 
+  console.log("the post title is:", title);
 
+  // const photos = post.photo.map(({photo}) => {
+  //   return {url: photo.url, name: photo.name, alt: photo.alternativeText }
+    
+  // });
+  // const [first,second] = photos;
+  
+  
   const SEO = {
-    title: `Slava Visuals | ${post.title} `,
-    description: `${post.description}`,
+    title: `Slava Visuals | ${title} `,
+    description: `${description}`,
 
     openGraph: {
-      title: `Slava Visuals | ${post.title} `,
-      description: `${post.description}`,
+      title: `Slava Visuals | ${title} `,
+      description: `${description}`,
     },
   }
 
   
 
   const md = MarkdownIt();
-  const htmlContent = md.render(post.content);
+  const htmlContent = md.render(content);
+
+ 
+
+
 
   return (
     <>
@@ -46,13 +61,13 @@ const PostPage = ({ post }) => {
             <li className="bg-gray-100 rounded-full py-1 px-5 text-gray-800">tag2</li>
             <li className="bg-gray-100 rounded-full py-1 px-5 text-gray-800">tag3</li>
           </ul>
-          <h1 className="text-5xl text-left xl:text-8xl font-extrabold">{post.title}</h1>
+          <h1 className="text-5xl text-left xl:text-8xl font-extrabold">{title}</h1>
         </div>
         
       </header>
 
       <main className="justify-self-center font-roboto text-base leading-loose md:text-lg md:leading-loose lg:w-9/12">
-        {/* <h2>description: {post.description}</h2> */}
+        <h2>description: {description}</h2>
         <section dangerouslySetInnerHTML={{ __html: htmlContent }} className=""></section>
       </main>
 
@@ -66,32 +81,62 @@ const PostPage = ({ post }) => {
 
 export default PostPage;
 
-//getting post property belonging to the current path that being rendered
+// 2 
 export async function getStaticProps({ params }) {
-  //
-  const postRes = await axios.get(getStrapiUrl(`/posts/${params.id}`));
-///posts/${params.id}
+  console.log('I am in getStaticProps');
+  console.log('param:',params.id);
+  //initiate AppoloClient
+  const client = new ApolloClient({
+    uri: process.env.STRAPI_GRAPHQL,
+    cache: new InMemoryCache()
+  })
+  //get array of all posts
+  const singlePost = await client.query({ 
+    query:GET_SINGLE_POST,
+    variables: {
+    id: params.id,
+  }, });
+
+  console.log('singlePost', singlePost);
+
+    
+
   return {
     props: {
-      post: postRes.data,
-    },
-  };
+      post: singlePost.data.post.data.attributes,
+    }
+}
 }
 
-// retrieve list of id of all posts
-//it will get info to Next which post to generate this path for
-export async function getStaticPaths() {
-  //get all the posts from Strapi
-  const postsRes = await axios.get(getStrapiUrl("/posts"));
-  
+//1. we tell NexJS how many posts (path and page) id we need to generate
+// params will be matched against his path
 
-  //generate array of objects of paths for each of posts
-  const paths = postsRes.data.map((post) => {
-    //getting current id of the post from iteration of all posts
-    return { params: { id: post.id.toString() } };
-  });
+//then return statement will send to getStaticProps option to generate the page where id=1,2,3... hence array of ids
+// So in other words we need to generate 'paths' array
+// in order to do this we need to request all the posts with *Apolo+GraphQL
+export async function getStaticPaths() {
+
+  console.log('I am in getStaticPaths');
+
+  //initiate AppoloClient
+  const client = new ApolloClient({
+    uri: process.env.STRAPI_GRAPHQL,
+    cache: new InMemoryCache()
+  })
+  //get array of all posts
+  const {data} = await client.query({ query: GET_ALL_POSTS });
+  console.log('data:', data);
+  
+   const paths = data.posts.data.map((singlePost) => {
+     return {params: {id: singlePost.id} }
+   });
+
+   console.log(paths);
+
   return {
+    //paths is array of 
+    //multiple objects
     paths,
-    fallback: false,
-  };
+    fallback: false
+  }
 }
