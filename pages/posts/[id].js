@@ -6,20 +6,13 @@ import MarkdownIt from "markdown-it";
 
 import { NextSeo } from "next-seo";
 import Image from 'next/image';
+import { print } from "graphql";
 
 const PostPage = ({ post }) => {
 
-  const{title, description, content} = post;
-
-  console.log("the post title is:", title);
-
-  // const photos = post.photo.map(({photo}) => {
-  //   return {url: photo.url, name: photo.name, alt: photo.alternativeText }
-    
-  // });
-  // const [first,second] = photos;
+  const {title, description, content, photo} = post;
   
-  
+  // Getting SEO for the page
   const SEO = {
     title: `Slava Visuals | ${title} `,
     description: `${description}`,
@@ -29,14 +22,31 @@ const PostPage = ({ post }) => {
       description: `${description}`,
     },
   }
-
   
-
+  // Rendering MD -> HTML
   const md = MarkdownIt();
-  const htmlContent = md.render(content);
+  const postPrimaryContent = md.render(content);
 
- 
-
+  //Iterate photos if post has them
+  const getPhotos = () => {
+    //console.log("I am inside getPhotos() ", photo);
+    return (
+      <>
+        {
+          photo.map((singlePhoto) => {
+            const photoDescription = md.render(singlePhoto.description);
+            return (
+              <div className="my-photos grid gap-y-4 my-6">
+                {singlePhoto.title && <h1>{singlePhoto.title}</h1>}
+                {singlePhoto.photo.data.attributes.url && <img className="rounded-3xl" src={singlePhoto.photo.data.attributes.url}></img>}
+                {singlePhoto.description && <div dangerouslySetInnerHTML={{ __html: photoDescription }}></div>}
+              </div>
+            )
+          })
+        }
+      </>
+     )
+  }
 
 
   return (
@@ -50,7 +60,6 @@ const PostPage = ({ post }) => {
             src="https://res.cloudinary.com/slavavisuals/image/upload/v1637879434/samples/photo-1593642634443-44adaa06623a_zeyp2h.jpg"
             alt="Picture of blogpost"
             layout="fill"
-            
           />
         </div>
         
@@ -67,13 +76,27 @@ const PostPage = ({ post }) => {
       </header>
 
       <main className="justify-self-center font-roboto text-base leading-loose md:text-lg md:leading-loose lg:w-9/12">
-        <h2>description: {description}</h2>
-        <section dangerouslySetInnerHTML={{ __html: htmlContent }} className=""></section>
-      </main>
-
-      
+        {/* Primary post content */}
+        <section className="mb-12" dangerouslySetInnerHTML={{ __html: postPrimaryContent }}></section>
         
-      
+        {photo.length ? getPhotos() : false }
+        
+        {/* 
+        <div className="grid gap-y-4">
+          {
+           photo.map((singlePhoto => {
+             const photoDescription = md.render(singlePhoto.description)
+             return [
+              singlePhoto.title && <h3> {singlePhoto.title} </h3>,
+              singlePhoto.photo.data.attributes.url && <img className="rounded-3xl" src={singlePhoto.photo.data.attributes.url}></img>,
+              singlePhoto.description && <div dangerouslySetInnerHTML={{ __html: photoDescription }}></div>
+             ]
+           }))
+          }
+        </div>
+        */}
+        
+      </main>
     </article>
     </>
   );
@@ -83,8 +106,7 @@ export default PostPage;
 
 // 2 
 export async function getStaticProps({ params }) {
-  console.log('I am in getStaticProps');
-  console.log('param:',params.id);
+  
   //initiate AppoloClient
   const client = new ApolloClient({
     uri: process.env.STRAPI_GRAPHQL,
@@ -97,9 +119,7 @@ export async function getStaticProps({ params }) {
     id: params.id,
   }, });
 
-  console.log('singlePost', singlePost);
-
-    
+  //console.log('singlePost', singlePost);
 
   return {
     props: {

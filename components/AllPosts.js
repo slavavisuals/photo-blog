@@ -15,15 +15,19 @@ const AllPosts = ({ posts }) => {
   }
 
   function renderPostPreviews() {
-    return posts.map((post) => {
-      return <PostPreview post={post} key={post.id} />;
+    
+    return posts.map((singlePost) => {
+      const {attributes, id } = singlePost;
+      //console.log('url: ', url);
+      //console.log('singlePost..............................', singlePost.attributes.thumbnail.data.attributes.url );
+      return <PostPreview post={singlePost.attributes} id={singlePost.id} key={singlePost.id} />;
     });
   }
 
   return (
     <>
     <NextSeo {...SEO} />
-      <h2>Posts</h2>
+      
       {renderPostPreviews()}
     
       

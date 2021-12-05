@@ -3,13 +3,13 @@ import PostPreview from "../components/PostPreview";
 
 const HomeLatestPosts = ({ posts }) => {
 
-  console.log('coming from HomeLatestPosts:', posts);
+  //console.log('coming from HomeLatestPosts:', posts);
   
   //Get all posts ids
   const postIds = posts.map((singlePost) => {
     return  singlePost.id;  
   });
-  console.log('ids:', postIds);
+  //console.log('ids:', postIds);
   
   const postData = posts.map((singlePost) => {
     return { postdata: {id: singlePost.id, title: singlePost.attributes.title, description: singlePost.attributes.description }};
@@ -31,8 +31,10 @@ const HomeLatestPosts = ({ posts }) => {
   console.log('latestPosts:', latestPosts);
 
   function renderPostPreviews() {
+    
     return latestPosts.map((singlePost) => {
-      return <PostPreview post={singlePost.attributes} id={singlePost.id} key={singlePost.id} /> ;
+      //console.log('url: ', singlePost.thumbnail.data.attributes.url);
+      return <PostPreview post={singlePost.attributes} id={singlePost.id} key={singlePost.id}  /> ;
     });
   }
 

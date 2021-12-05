@@ -8,7 +8,14 @@ query{
       attributes {
         title
         description
-        
+        thumbnail {
+          data {
+            attributes {
+              url
+              provider_metadata
+            }
+          }
+        }
       }
     }
   }
@@ -19,9 +26,27 @@ query Title($id: ID!) {
   post(id: $id) {
     data {
       attributes {
+        thumbnail {
+          data {
+            attributes {
+              url
+            }
+          }
+        }
         title
         description
         content
+        photo {
+          title
+          description
+          photo {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
+        }
       }
     }
   }

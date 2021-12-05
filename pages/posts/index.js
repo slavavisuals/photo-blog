@@ -8,7 +8,7 @@ import AllPosts from "../../components/AllPosts";
 const Posts = ({ posts }) => {
   //console.log("This is Posts page");
   return (    
-    <div className="all-posts">
+    <div className="all-posts grid grid-cols-3 gap-x-5">
       <AllPosts posts={posts} />
     </div>
   );
@@ -26,7 +26,7 @@ export async function getStaticProps() {
   //const postsRes = await axios.get(getStrapiUrl("/posts"));  
   return {
     props: {
-      posts: data.posts,
+      posts: data.posts.data,
     },
   };
 
